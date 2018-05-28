@@ -18,6 +18,7 @@ class CreateShopOperatingTimesTable extends Migration
                 ->comment('Id');
             $table->integer('shop_operating_weekday_id')
                 ->unsigned()
+                ->index()
                 ->comment('shop_operating_weekday Id');
             $table->time('opening_time')
                 ->comment('Time shop Opens');
