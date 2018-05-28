@@ -14,4 +14,14 @@ class ShopOperatingTime extends Model
     protected $fillable = [
         'opening_time', 'closing_time', 'closed_message'
     ];
+
+    /**
+     * Set belongs-to relationship for operating times -> weekdays
+     *
+     * @return void
+     */
+    public function operatingWeekday()
+    {
+        return $this->belongsTo(ShopOperatingWeekday::class, 'shop_operating_weekday_id');
+    }
 }
