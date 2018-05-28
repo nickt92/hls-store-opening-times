@@ -8,7 +8,7 @@ return [
             'closedResponseMessage' => 'Closed for Lunch'
         ],
         [
-            'open' => '12:20',
+            'open' => '13:30',
             'closed' => '17:00',
             'openedResponseMessage' => 'Open',
             'closedResponseMessage' => 'Closed for the day'
@@ -22,7 +22,7 @@ return [
             'closedResponseMessage' => 'Closed for Lunch'
         ],
         [
-            'open' => '12:20',
+            'open' => '13:30',
             'closed' => '17:00',
             'openedResponseMessage' => 'Open',
             'closedResponseMessage' => 'Closed for the day'
@@ -36,7 +36,7 @@ return [
             'closedResponseMessage' => 'Closed for Lunch'
         ],
         [
-            'open' => '12:20',
+            'open' => '13:30',
             'closed' => '17:00',
             'openedResponseMessage' => 'Open',
             'closedResponseMessage' => 'Closed for the day'
@@ -50,7 +50,7 @@ return [
             'closedResponseMessage' => 'Closed for Lunch'
         ],
         [
-            'open' => '12:20',
+            'open' => '13:30',
             'closed' => '17:00',
             'openedResponseMessage' => 'Open',
             'closedResponseMessage' => 'Closed for the day'
@@ -64,7 +64,7 @@ return [
             'closedResponseMessage' => 'Closed for Lunch'
         ],
         [
-            'open' => '12:20',
+            'open' => '13:30',
             'closed' => '17:00',
             'openedResponseMessage' => 'Open',
             'closedResponseMessage' => 'Closed for the day'
