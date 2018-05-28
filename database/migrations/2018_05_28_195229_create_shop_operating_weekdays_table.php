@@ -16,8 +16,6 @@ class CreateShopOperatingWeekdaysTable extends Migration
         Schema::create('shop_operating_weekdays', function (Blueprint $table) {
             $table->increments('id')
                 ->comment('Id');
-            $table->integer('weekday_number')
-                ->comment('Weekday Number ( 1 = Monday)');
             $table->string('weekday_label')
                 ->comment('Name of the day');
             $table->timestamps();
