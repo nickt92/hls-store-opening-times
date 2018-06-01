@@ -1,7 +1,7 @@
 <?php
 return [
     [
-        'description' => 'New Years Day',
+        'description' => 'New Years Day 2017',
         'start' => '2017-01-01',
         'finish' => '2017-01-01',
         'reoccurring' => true,
@@ -9,7 +9,7 @@ return [
     ],
 
     [
-        'description' => 'Good Friday',
+        'description' => 'Good Friday 2017',
         'start' => '2017-04-14',
         'finish' => '2017-04-14',
         'reoccurring' => true,
@@ -17,7 +17,7 @@ return [
     ],
 
     [
-        'description' => 'Spring Bank Holiday',
+        'description' => 'Spring Bank Holiday 2017',
         'start' => '2017-01-05',
         'finish' => '2017-05-01',
         'reoccurring' => true,
@@ -25,7 +25,7 @@ return [
     ],
 
     [
-        'description' => 'Christmas Day',
+        'description' => 'Christmas Day 2017',
         'start' => '2017-12-25',
         'finish' => '2017-12-25',
         'reoccurring' => true,
@@ -33,7 +33,7 @@ return [
     ],
 
     [
-        'description' => 'Christmas Holidays',
+        'description' => 'Christmas Holidays 2017',
         'start' => '2017-12-20',
         'finish' => '2017-12-20',
         'reoccurring' => true,
@@ -41,9 +41,16 @@ return [
     ],
 
     [
-        'description' => 'New Years Eve',
+        'description' => 'New Years Eve 2017',
         'start' => '2017-12-31',
         'finish' => '2017-12-31',
+        'reoccurring' => true,
+        'enabled' => true
+    ],
+    [
+        'description' => 'New Years Day 2018',
+        'start' => '2018-01-01',
+        'finish' => '2018-01-01',
         'reoccurring' => true,
         'enabled' => true
     ]
