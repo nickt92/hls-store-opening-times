@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ShopClosure;
+use App\ShopOperatingTime;
 use App\ShopOperatingWeekday;
+use DateTime;
+use Illuminate\Support\Facades\Validator;
 
 class ShopController extends Controller
 {
@@ -17,7 +20,9 @@ class ShopController extends Controller
      */
     public function isOpen(DateTime $dt = null)
     {
-
+        if (!$dt instanceof DateTime) {
+            $dt = new DateTime('now');
+        }
     }
 
     /**
@@ -29,6 +34,9 @@ class ShopController extends Controller
      */
     public function isClosed(DateTime $dt = null)
     {
+        if (!$dt instanceof DateTime) {
+            $dt = new DateTime('now');
+        }
 
     }
 
@@ -42,7 +50,9 @@ class ShopController extends Controller
      */
     public function nextOpen(DateTime $dt = null)
     {
-
+        if (!$dt instanceof DateTime) {
+            $dt = new DateTime('now');
+        }
     }
 
     /**
@@ -66,9 +76,41 @@ class ShopController extends Controller
      */
     public function index(Request $request)
     {
-        $shopClosures = ShopClosure::all()->toArray();
-        $weekdayOpeningTimes = ShopOperatingWeekday::with(['operatingTimes'])->get()->toArray();
+        $dateToFilter = null;
 
-        return View('shop.operating-hours')->with(compact('weekdayOpeningTimes'));
+        if ($request->query()) {
+            $request->validate([
+                'date' => 'required|date|date_format:Y-m-d',
+                'time' => 'required|date_format:H:i:s'
+            ]);
+
+            $dateToFilter = new DateTime(
+                $request->query('date') . $request->query('time')
+            );
+        }
+
+        $allUpcomingClosures = ShopClosure::getAllFutureClosures(
+            $dateToFilter
+        )->get()->toArray();
+
+        $isShopOpen = $this->isOpen($dateToFilter);
+        $shopNextOpen = $this->nextOpen($dateToFilter);
+        $isShopClosed = $this->isClosed($dateToFilter);
+        $shopNextClosed = $this->nextClosed($dateToFilter);
+
+        $weekdayOpeningTimes = ShopOperatingWeekday::with(
+            ['operatingTimes']
+        )->get()->toArray();
+
+        return View('shop.operating-hours')->with(
+            compact(
+                'weekdayOpeningTimes',
+                'allUpcomingClosures',
+                'isShopOpen',
+                'shopNextOpen',
+                'isShopClosed',
+                'shopNextClosed'
+            )
+        );
     }
 }
