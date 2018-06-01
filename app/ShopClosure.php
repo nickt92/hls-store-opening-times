@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class ShopClosure extends Model
 {
@@ -14,4 +15,27 @@ class ShopClosure extends Model
     protected $fillable = [
         'description', 'start', 'finish', 'reoccurring', 'enabled'
     ];
+
+    /**
+     * Get all closures based on provided DateTime
+     *
+     * @param DateTime $dt
+     * @return object
+     */
+    public static function getAllFutureClosures(DateTime $dt = null)
+    {
+        if (!$dt instanceof DateTime) {
+            $dt = new DateTime('now');
+        }
+
+        $dateToFilter = $dt->format('Y-m-d H:i:s');
+
+        $closuresCollection = ShopClosure::where([
+            ['start', '>=', $dateToFilter],
+            ['finish', '>=', $dateToFilter],
+            ['enabled', '=', true]
+        ]);
+
+        return $closuresCollection;
+    }
 }
