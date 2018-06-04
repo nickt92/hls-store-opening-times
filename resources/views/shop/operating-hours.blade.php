@@ -20,39 +20,28 @@
                 height: 100%;
                 margin: 0;
             }
-
-            .full-height {
-                height: 100vh;
-            }
-
             .flex-center {
                 align-items: center;
                 display: flex;
                 justify-content: center;
             }
-
             .position-ref {
                 position: relative;
             }
-
             .top-right {
                 position: absolute;
                 right: 10px;
                 top: 18px;
             }
-
             .content {
                 text-align: center;
             }
-
             .title {
                 font-size: 84px;
             }
-
             .sub-title {
                 font-size: 54px;
             }
-
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
@@ -62,17 +51,44 @@
                 text-decoration: none;
                 text-transform: uppercase;
             }
-
             .m-b-md {
                 margin-bottom: 10px;
             }
             table {
                 margin-top: 30px;
             }
+            #opening-times, #store-closures {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            #opening-times td, #opening-times th,
+            #store-closures td, #store-closures th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #opening-times tr:nth-child(even),
+            #store-closures tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #opening-times tr:hover,
+            #store-closures tr:hover {
+                background-color: #ddd;
+            }
+
+            #opening-times th,
+            #store-closures th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: center;
+                background-color: #FF0000;
+                color: white;
+            }
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref">
             <div class="content">
                 <div class="title m-b-md">
                     {{__('HLS Demo Shop')}}
@@ -98,60 +114,72 @@
                     </p>
                 @else
                     <p>
-                        {{__('Shop will next be open')}} :
+                        {{__('Shop will next be open')}} : {{$shopNextOpen}}
                     </p>
                 @endif
-                <table>
+                <table id="opening-times">
                     <thead>
                         <tr>
-                            <th>Store Hours</th>
+                            <th colspan="4">{{__('Store Hours')}}</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($weekdayOpeningTimes as $id => $weekdayInfo)
+                        @foreach($weekdayOpeningTimes as $weekdayOpeningInfo)
                             <tr>
-                                <td>{{$weekdayInfo['weekday_label']}}</td>
+                                <td colspan="4">
+                                    {{$weekdayOpeningInfo->weekday_label}} 
+                                    @if ($currentDay === $weekdayOpeningInfo->weekday_label) 
+                                        - <strong>{{__('Current')}}</strong>
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
-                            @if (!empty($weekdayInfo['operating_times']))
-                                @foreach ($weekdayInfo['operating_times'] as $id => $timesInfo)
+                            @if ($weekdayOpeningInfo->operatingTimes->count() > 0)
+                                @foreach ($weekdayOpeningInfo->operatingTimes as $weekdayTimes)
                                 <tr>
                                     <td>
-                                        {{$timesInfo['opening_time']}} ({{$timesInfo['open_message']}}) - 
-                                        {{$timesInfo['closing_time']}} ({{$timesInfo['closed_message']}})
+                                        {{$weekdayTimes->opening_time}}
                                     </td>
+                                    <td>{{$weekdayTimes->open_message}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{$weekdayTimes->closing_time}}
+                                    </td>
+                                    <td>{{$weekdayTimes->closed_message}}</td>
                                 </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td>{{__('Closed')}}</td>
+                                    <td colspan="4">{{__('Closed')}}</td>
                                 </tr>
                             @endif
                         @endforeach
                     </tbody>
                 </table>
-                <table>
+                <table id="store-closures">
                     <thead>
                         <tr>
                             <th>Store Closures</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if (!empty($allUpcomingClosures))
-                            @foreach ($allUpcomingClosures as $id => $closureInfo)
+                        @if (!empty($allUpcomingClosures->count() > 0))
+                            @foreach ($allUpcomingClosures as $closureInfo)
                                 <tr>
                                     <td>
-                                        {{__('Closed for')}} {{$closureInfo['description']}} :
-                                        {{ Carbon\Carbon::parse($closureInfo['start'])->format('l jS F') }}
-                                        @if ($closureInfo['start'] !== $closureInfo['finish'])
-                                            - {{ Carbon\Carbon::parse($closureInfo['finish'])->format('l jS F') }}
+                                        {{__('Closed for')}} {{$closureInfo->description}} :
+                                        {{ Carbon\Carbon::parse($closureInfo->start)->format('l jS F') }}
+                                        @if ($closureInfo->start !== $closureInfo->finish)
+                                            - {{ Carbon\Carbon::parse($closureInfo->finish)->format('l jS F') }}
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td></td>
+                                <td>{{__('No upcoming closures')}}</td>
                             </tr>
                         @endif
                     </tbody>
