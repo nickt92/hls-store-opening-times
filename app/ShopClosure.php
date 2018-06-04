@@ -22,7 +22,7 @@ class ShopClosure extends Model
      * @param DateTime $dt
      * @return object
      */
-    public static function getAllFutureClosures(DateTime $dt = null)
+    public static function getClosures(DateTime $dt = null)
     {
         if (!$dt instanceof DateTime) {
             $dt = new DateTime('now');
